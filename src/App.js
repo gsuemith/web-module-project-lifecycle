@@ -12,13 +12,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    fetch('https://api.github.com/users',{
-      method: 'GET',
-      headers: {
-        Authorization: "8bee285b7643fd92c7033edb72184b70283ab358"
-      }
-      
-    })
+    fetch('https://api.github.com/users')
       .then(res => res.json())
       .then(users => this.setState({users: users}))
       .catch(err => this.setState({users: []}))

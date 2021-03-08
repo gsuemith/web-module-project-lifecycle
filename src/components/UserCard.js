@@ -1,4 +1,17 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
+
+const Card = styled.div`
+  width: 20em;
+  background-color: white;
+  margin: 2em;
+  padding: 2em;
+
+  img {
+    width: 100%;
+    border-radius: 50%;
+  }
+`
 
 export class UserCard extends Component {
   constructor(props){
@@ -10,13 +23,7 @@ export class UserCard extends Component {
   }
 
   componentDidMount() {
-    fetch(`${this.user.followers_url}`,{
-      method: 'GET',
-      headers: {
-        Authorization: "8bee285b7643fd92c7033edb72184b70283ab358"
-      }
-      
-    })
+    fetch(`${this.user.followers_url}`)
       .then(res => res.json())
       .then(followers => this.setState({followers: followers}))
       .catch(err => console.log("Error:", err))
@@ -25,7 +32,7 @@ export class UserCard extends Component {
 
   render() {
     return (
-      <div>
+      <Card>
         <img src={this.user.avatar_url} alt={this.user.login}/>
         <h1>{this.user.login}</h1>
         {
@@ -33,7 +40,7 @@ export class UserCard extends Component {
             return <div>{follower.login}</div>
           })
         }
-      </div>
+      </Card>
     )
   }
 }
