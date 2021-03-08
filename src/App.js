@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import UserCard from './components/UserCard'
+import styled from 'styled-components'
 
-// const token = "8bee285b7643fd92c7033edb72184b70283ab358"
+import { O_AUTH_TOKEN } from './environment'
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`
 
 export class App extends Component {
   constructor(){
@@ -12,7 +19,12 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    fetch('https://api.github.com/users')
+    fetch('https://api.github.com/users', {
+      method: 'GET',
+      headers: {
+        Authorization: O_AUTH_TOKEN,
+      }
+    })
       .then(res => res.json())
       .then(users => this.setState({users: users}))
       .catch(err => this.setState({users: []}))
@@ -20,11 +32,11 @@ export class App extends Component {
 
   render() {
     return (
-      <div>{console.log(this.state.users)}
+      <Container>
         {
           this.state.users.map(user => <UserCard user={user} key={user.id}/>)
         }
-      </div>
+      </Container>
     )
   }
 }

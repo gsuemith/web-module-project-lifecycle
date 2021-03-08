@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FollowerList from './FollowerList'
 import styled from 'styled-components'
 
 const Card = styled.div`
@@ -6,11 +7,16 @@ const Card = styled.div`
   background-color: white;
   margin: 2em;
   padding: 2em;
+  box-shadow: 4px 4px 2px black;
+  border-radius: 10px;
 
   img {
     width: 100%;
     border-radius: 50%;
   }
+`
+const Name = styled.h1`
+  text-align: center;
 `
 
 export class UserCard extends Component {
@@ -22,6 +28,8 @@ export class UserCard extends Component {
     }
   }
 
+
+  //lifecycle method
   componentDidMount() {
     fetch(`${this.user.followers_url}`)
       .then(res => res.json())
@@ -34,12 +42,8 @@ export class UserCard extends Component {
     return (
       <Card>
         <img src={this.user.avatar_url} alt={this.user.login}/>
-        <h1>{this.user.login}</h1>
-        {
-          this.state.followers.map(follower => {
-            return <div>{follower.login}</div>
-          })
-        }
+        <Name>{this.user.login}</Name>
+        <FollowerList followers={this.state.followers} />
       </Card>
     )
   }
